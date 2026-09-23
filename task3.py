@@ -176,31 +176,7 @@ else:
 print("-" * 60)
 
 # 3.6
-import unicodedata
-
-def normalize_text(text):
-    text = text.lower()
-
-    text = text.replace("ß", "ss")
-    text = text.replace("æ", "ae")
-    text = text.replace("œ", "oe")
-    text = text.replace("ø", "o")
-    text = text.replace("ł", "l")
-    text = text.replace("ı", "i")
-
-    text = unicodedata.normalize("NFD", text)
-
-    result = ""
-
-    for letter in text:
-        if unicodedata.category(letter) != "Mn":
-            result += letter
-
-    return result
-
-text = input("Please enter a text: ")
-text = normalize_text(text)
-
+text = input("Please enter a text: ").lower()
 
 language_frequencies = {
     "Esperanto": {
@@ -295,11 +271,20 @@ language_frequencies = {
     }
 }
 
-letters = "abcdefghijklmnopqrstuvwxyz"
-total = 0
 
-for letter in letters:
-    total += text.count(letter)
+letters = "abcdefghijklmnopqrstuvwxyz"
+
+total = 0
+special = 0
+
+for letter in text:
+    if letter in letters:
+        total += 1
+
+    elif letter.isalpha():
+        total += 1
+        special += 1
+
 
 if total == 0:
     print("No valid letters found.")
@@ -313,6 +298,12 @@ else:
         text_frequencies[letter] = frequency
 
         print(f"{letter}: {frequency:.2f}%")
+
+    special_frequency = special / total * 100
+    text_frequencies["special"] = special_frequency
+
+    print(f"special: {special_frequency:.2f}%")
+
 
     best_language = ""
     smallest_difference = float("inf")
@@ -339,6 +330,7 @@ else:
 
 
     print(f"Detected language: {best_language}")
+
 print("-" * 60)
 
 
