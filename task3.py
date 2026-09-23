@@ -302,9 +302,6 @@ else:
     special_frequency = special / total * 100
     text_frequencies["special"] = special_frequency
 
-    print(f"special: {special_frequency:.2f}%")
-
-
     best_language = ""
     smallest_difference = float("inf")
 
